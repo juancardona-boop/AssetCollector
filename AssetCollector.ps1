@@ -118,9 +118,10 @@ if($JsonFile){
 Write-Host ""
 Write-Host "Generando HTML..." -ForegroundColor Cyan
 
-$HtmlFile=Export-InventoryHtml `
-            -Inventory $Global:AssetCollector.Inventory `
-            -OutputPath $Global:AssetCollector.OutputPath
+$HtmlFile = Export-InventoryHtml `
+                -Inventory $Global:AssetCollector.Inventory `
+                -OutputPath $Global:AssetCollector.OutputPath `
+                -ResourcePath (Join-Path $Root "Resources")
 
 if($HtmlFile){
 

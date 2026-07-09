@@ -1,164 +1,103 @@
-function Export-InventoryHtml {
+function New-DiskTable {
 
-    param(
-        [object]$Inventory,
-        [string]$OutputPath
-    )
+    param($Disks)
 
-    $Computer = $Inventory.Computer
-    $OS = $Inventory.OperatingSystem
-    $CPU = $Inventory.CPU
-    $RAM = $Inventory.Memory
-    $BIOS = $Inventory.BIOS
-    $Disks = $Inventory.Disks
-    $Network = $Inventory.Network
-
-    $Fecha = Get-Date -Format "yyyyMMdd_HHmmss"
-
-    $Archivo = Join-Path $OutputPath "Inventario_$($Computer.ComputerName)_$Fecha.html"
-
-    $DisksHtml = ""
+    $Table = @"
+<table>
+<thead>
+<tr>
+<th>Unidad / Disco</th>
+<th>Tipo</th>
+<th>Capacidad</th>
+<th>Libre</th>
+<th>Uso</th>
+<th>Sistema</th>
+</tr>
+</thead>
+<tbody>
+"@
 
     foreach($Disk in $Disks){
 
-        $DisksHtml += @"
+        foreach($Partition in $Disk.Partitions){
+
+            $Table += @"
+
 <tr>
-<td>$($Disk.Drive)</td>
-<td>$($Disk.SizeGB) GB</td>
-<td>$($Disk.FreeGB) GB</td>
-<td>$($Disk.UsedGB) GB</td>
-<td>$($Disk.FileSystem)</td>
+
+<td>
+
+<b>$($Partition.Drive)</b><br>
+
+<small>$($Disk.Model)</small>
+
+</td>
+
+<td>
+
+$($Disk.MediaType)
+
+</td>
+
+<td>
+
+$($Partition.SizeGB) GB
+
+</td>
+
+<td>
+
+$($Partition.FreeGB) GB
+
+</td>
+
+<td>
+
+<div class='progress'>
+
+<div class='progress-bar' style='width:$($Partition.PercentUsed)%'></div>
+
+</div>
+
+$($Partition.PercentUsed)%
+
+</td>
+
+<td>
+
+$($Partition.FileSystem)
+
+</td>
+
 </tr>
+
 "@
+
+        }
 
     }
 
-    $NetworkHtml = ""
+    $Table += @"
 
-    foreach($NIC in $Network){
+</tbody>
 
-        $NetworkHtml += @"
-<tr>
-<td>$($NIC.Name)</td>
-<td>$($NIC.IP)</td>
-<td>$($NIC.MAC)</td>
-<td>$($NIC.Gateway)</td>
-</tr>
+</table>
+
 "@
 
-    }
+    return $Table
 
-$Html = @"
+}
 
-<!DOCTYPE html>
+function New-NetworkTable {
 
-<html>
+    param($Network)
 
-<head>
-
-<meta charset="utf-8">
-
-<title>AssetCollector</title>
-
-<link rel="stylesheet" href="../Resources/style.css">
-
-</head>
-
-<body>
-
-<h1>AssetCollector</h1>
-
-<h2>Inventario de Activos Tecnologicos</h2>
-
-<div class="card">
-
-<h3>Equipo</h3>
+    $Table = @"
 
 <table>
 
-<tr><td class="label">Nombre</td><td>$($Computer.ComputerName)</td></tr>
-
-<tr><td class="label">Usuario</td><td>$($Computer.UserName)</td></tr>
-
-<tr><td class="label">Fabricante</td><td>$($Computer.Manufacturer)</td></tr>
-
-<tr><td class="label">Modelo</td><td>$($Computer.Model)</td></tr>
-
-<tr><td class="label">Serial</td><td>$($Computer.SerialNumber)</td></tr>
-
-</table>
-
-</div>
-
-<div class="card">
-
-<h3>Sistema Operativo</h3>
-
-<table>
-
-<tr><td class="label">Nombre</td><td>$($OS.Caption)</td></tr>
-
-<tr><td class="label">Version</td><td>$($OS.Version)</td></tr>
-
-<tr><td class="label">Build</td><td>$($OS.Build)</td></tr>
-
-<tr><td class="label">Arquitectura</td><td>$($OS.Architecture)</td></tr>
-
-</table>
-
-</div>
-
-<div class="card">
-
-<h3>Hardware</h3>
-
-<table>
-
-<tr><td class="label">CPU</td><td>$($CPU.Name)</td></tr>
-
-<tr><td class="label">Nucleos</td><td>$($CPU.Cores)</td></tr>
-
-<tr><td class="label">Procesadores Logicos</td><td>$($CPU.LogicalProcessors)</td></tr>
-
-<tr><td class="label">RAM</td><td>$($RAM.TotalGB) GB</td></tr>
-
-<tr><td class="label">BIOS</td><td>$($BIOS.Version)</td></tr>
-
-</table>
-
-</div>
-
-<div class="card">
-
-<h3>Discos</h3>
-
-<table>
-
-<tr>
-
-<th>Unidad</th>
-
-<th>Tamano</th>
-
-<th>Libre</th>
-
-<th>Usado</th>
-
-<th>Sistema de Archivos</th>
-
-</tr>
-
-$DisksHtml
-
-</table>
-
-</div>
-
-<div class="card">
-
-<h3>Adaptadores de Red</h3>
-
-<table>
+<thead>
 
 <tr>
 
@@ -172,20 +111,129 @@ $DisksHtml
 
 </tr>
 
-$NetworkHtml
+</thead>
 
-</table>
-
-</div>
-
-</body>
-
-</html>
+<tbody>
 
 "@
 
-    $Html | Out-File $Archivo -Encoding UTF8
+    foreach($NIC in $Network){
 
-    return $Archivo
+        $Table += @"
+
+<tr>
+
+<td>$($NIC.Name)</td>
+
+<td>$($NIC.IP)</td>
+
+<td>$($NIC.MAC)</td>
+
+<td>$($NIC.Gateway)</td>
+
+</tr>
+
+"@
+
+    }
+
+    $Table += @"
+
+</tbody>
+
+</table>
+
+"@
+
+    return $Table
+
+}
+
+function Export-InventoryHtml {
+
+    param(
+
+        [Parameter(Mandatory)]
+        [object]$Inventory,
+
+        [Parameter(Mandatory)]
+        [string]$OutputPath,
+
+        [Parameter(Mandatory)]
+        [string]$ResourcePath
+
+    )
+
+    $Template = Join-Path $ResourcePath "DashboardTemplate.html"
+
+    if(!(Test-Path $Template)){
+        throw "No existe DashboardTemplate.html"
+    }
+
+    $Html = Get-Content $Template -Raw
+
+    $Computer = $Inventory.Computer
+    $OS = $Inventory.OperatingSystem
+    $CPU = $Inventory.CPU
+    $RAM = $Inventory.Memory
+    $BIOS = $Inventory.BIOS
+    $Disks = $Inventory.Disks
+    $Network = $Inventory.Network
+
+    $DiskTable = New-DiskTable $Disks
+
+    $NetworkTable = New-NetworkTable $Network
+
+    $Replace = @{
+
+        "{{ComputerName}}" = $Computer.ComputerName
+        "{{UserName}}" = $Computer.UserName
+
+        "{{Manufacturer}}" = $Computer.Manufacturer
+        "{{Model}}" = $Computer.Model
+        "{{Serial}}" = $Computer.SerialNumber
+
+        "{{OSName}}" = $OS.Caption
+        "{{OSVersion}}" = $OS.Version
+        "{{Build}}" = $OS.Build
+
+        "{{CPU}}" = $CPU.Name
+        "{{Cores}}" = $CPU.Cores
+        "{{Threads}}" = $CPU.LogicalProcessors
+
+        "{{RAM}}" = $RAM.TotalGB
+
+        "{{ScanDate}}" = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+
+        "{{Version}}" = $Inventory.Scan.AssetCollectorVersion
+
+        "{{DiskTable}}" = $DiskTable
+
+        "{{NetworkTable}}" = $NetworkTable
+
+    }
+
+        foreach($Item in $Replace.GetEnumerator()){
+
+        $Html = $Html.Replace(
+            $Item.Key,
+            [string]$Item.Value
+        )
+
+    }
+
+    $FileName = "Inventario_{0}_{1}.html" -f `
+        $Computer.ComputerName, `
+        (Get-Date -Format "yyyyMMdd_HHmmss")
+
+    $FullPath = Join-Path `
+        $OutputPath `
+        $FileName
+
+    $Html | Set-Content `
+        -Path $FullPath `
+        -Encoding UTF8
+
+    return $FullPath
 
 }

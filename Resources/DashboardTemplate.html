@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+
+<title>AssetCollector</title>
+
+<link rel="stylesheet" href="../Resources/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>AssetCollector</h1>
+
+    <div class="subtitle">
+        Inventario de Activos Tecnologicos
+    </div>
+
+    <div class="scaninfo">
+
+        <span><strong>Equipo:</strong> {{ComputerName}}</span>
+
+        <span><strong>Usuario:</strong> {{UserName}}</span>
+
+        <span><strong>Fecha:</strong> {{ScanDate}}</span>
+
+    </div>
+
+</header>
+
+<div class="container">
+
+<div class="cards">
+
+<div class="card">
+
+<h2>Equipo</h2>
+
+<div class="item">
+<span>Fabricante</span>
+<strong>{{Manufacturer}}</strong>
+</div>
+
+<div class="item">
+<span>Modelo</span>
+<strong>{{Model}}</strong>
+</div>
+
+<div class="item">
+<span>Serial</span>
+<strong>{{Serial}}</strong>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Sistema Operativo</h2>
+
+<div class="item">
+<span>Nombre</span>
+<strong>{{OSName}}</strong>
+</div>
+
+<div class="item">
+<span>Version</span>
+<strong>{{OSVersion}}</strong>
+</div>
+
+<div class="item">
+<span>Build</span>
+<strong>{{Build}}</strong>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Procesador</h2>
+
+<div class="item">
+<span>CPU</span>
+<strong>{{CPU}}</strong>
+</div>
+
+<div class="item">
+<span>Nucleos</span>
+<strong>{{Cores}}</strong>
+</div>
+
+<div class="item">
+<span>Procesadores Logicos</span>
+<strong>{{Threads}}</strong>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Memoria</h2>
+
+<div class="memoryValue">
+
+{{RAM}} GB
+
+</div>
+
+</div>
+
+</div>
+
+<section class="panel">
+
+<h2>Discos</h2>
+
+{{DiskTable}}
+
+</section>
+
+<section class="panel">
+
+<h2>Adaptadores de Red</h2>
+
+{{NetworkTable}}
+
+</section>
+
+<footer>
+
+AssetCollector {{Version}}
+
+</footer>
+
+</div>
+
+</body>
+
+</html>
