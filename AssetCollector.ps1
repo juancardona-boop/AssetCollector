@@ -24,6 +24,12 @@ $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 . "$Root\Exporters\Html.ps1"
 
+. "$Root\Modules\BaseBoard.ps1"
+
+. "$Root\Modules\UUID.ps1"
+
+. "$Root\Modules\TPM.ps1"
+
 Initialize-AssetCollector
 
 $Global:AssetCollector.Inventory.Scan = [PSCustomObject]@{
@@ -46,6 +52,12 @@ $Global:AssetCollector.Inventory.Memory = Get-MemoryInfo
 
 $Global:AssetCollector.Inventory.BIOS = Get-BIOSInfo
 
+$Global:AssetCollector.Inventory.BaseBoard = Get-BaseBoardInfo
+
+$Global:AssetCollector.Inventory.UUID = Get-UUIDInfo
+
+$Global:AssetCollector.Inventory.TPM = Get-TPMInfo
+
 $Global:AssetCollector.Inventory.Disks = Get-DiskInfo
 
 $Global:AssetCollector.Inventory.Network = Get-NetworkInfo
@@ -55,6 +67,9 @@ $SO = $Global:AssetCollector.Inventory.OperatingSystem
 $CPU = $Global:AssetCollector.Inventory.CPU
 $RAM = $Global:AssetCollector.Inventory.Memory
 $BIOS = $Global:AssetCollector.Inventory.BIOS
+$Board = $Global:AssetCollector.Inventory.BaseBoard
+$UUID = $Global:AssetCollector.Inventory.UUID
+$TPM = $Global:AssetCollector.Inventory.TPM
 $Disks = $Global:AssetCollector.Inventory.Disks
 $Network = $Global:AssetCollector.Inventory.Network
 
@@ -87,6 +102,24 @@ Write-Host ""
 Write-Host "BIOS...............: $($BIOS.Manufacturer)"
 Write-Host "BIOS Version.......: $($BIOS.Version)"
 Write-Host ""
+
+Write-Host ""
+Write-Host "Placa Base.........: $($Board.Manufacturer)"
+Write-Host "Modelo.............: $($Board.Model)"
+Write-Host "Serial.............: $($Board.SerialNumber)"
+
+Write-Host ""
+Write-Host "========== TPM ==========" -ForegroundColor Cyan
+Write-Host "Presente..........: $($TPM.Present)"
+Write-Host "Listo.............: $($TPM.Ready)"
+Write-Host "Habilitado........: $($TPM.Enabled)"
+Write-Host "Activado..........: $($TPM.Activated)"
+Write-Host "Fabricante........: $($TPM.Manufacturer)"
+Write-Host "Version...........: $($TPM.Version)"
+
+Write-Host ""
+Write-Host "UUID...............: $($UUID.UUID)"
+Write-Host "Vendor.............: $($UUID.Vendor)"
 
 Write-Host "Discos encontrados.: $($Disks.Count)"
 foreach($Disk in $Disks){
