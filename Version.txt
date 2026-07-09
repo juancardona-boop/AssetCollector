@@ -1,0 +1,5 @@
+AssetCollector
+Versión: 1.0.0
+Estado: Desarrollo
+Autor: Juan Felipe Cardona / ChatGPT
+Fecha inicio: 09/07/2026

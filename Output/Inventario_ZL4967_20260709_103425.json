@@ -1,0 +1,83 @@
+﻿{
+    "Scan":  {
+                 "ScanId":  "87918481-e7b2-4a92-af3d-828272610ed7",
+                 "ScanDate":  {
+                                  "value":  "\/Date(1783611261876)\/",
+                                  "DisplayHint":  2,
+                                  "DateTime":  "jueves, 9 de julio de 2026 10:34:21 a. m."
+                              },
+                 "AssetCollectorVersion":  "1.0.0"
+             },
+    "Computer":  {
+                     "ComputerName":  "ZL4967",
+                     "UserName":  "Juan Felipe Cardona",
+                     "Domain":  "ZL4967",
+                     "Manufacturer":  "Dell Inc.",
+                     "Model":  "Inspiron 15 3530",
+                     "SerialNumber":  "BVD8494",
+                     "UUID":  "4C4C4544-0056-4410-8038-C2C04F343934"
+                 },
+    "OperatingSystem":  {
+                            "Caption":  "Microsoft Windows 11 Pro",
+                            "Version":  "10.0.26200",
+                            "Build":  "26200",
+                            "Architecture":  "64 bits",
+                            "InstallDate":  "\/Date(1763825873000)\/",
+                            "LastBoot":  "\/Date(1782779756819)\/"
+                        },
+    "CPU":  {
+                "Name":  "13th Gen Intel(R) Core(TM) i5-1334U",
+                "Manufacturer":  "GenuineIntel",
+                "Cores":  10,
+                "LogicalProcessors":  12,
+                "MaxClockMHz":  1300
+            },
+    "Memory":  {
+                   "TotalGB":  15.69
+               },
+    "BIOS":  {
+                 "Manufacturer":  "Dell Inc.",
+                 "Version":  "1.32.0",
+                 "SerialNumber":  "BVD8494",
+                 "ReleaseDate":  "\/Date(1776902400000)\/"
+             },
+    "Disks":  [
+                  {
+                      "Drive":  "C:",
+                      "FileSystem":  "NTFS",
+                      "SizeGB":  240.03,
+                      "FreeGB":  45.39,
+                      "UsedGB":  194.64
+                  },
+                  {
+                      "Drive":  "D:",
+                      "FileSystem":  "NTFS",
+                      "SizeGB":  214.84,
+                      "FreeGB":  195.53,
+                      "UsedGB":  19.31
+                  },
+                  {
+                      "Drive":  "G:",
+                      "FileSystem":  "FAT32",
+                      "SizeGB":  240.03,
+                      "FreeGB":  43.12,
+                      "UsedGB":  196.91
+                  }
+              ],
+    "Network":  [
+                    {
+                        "Name":  "Realtek RTL8852BE WiFi 6 802.11ax PCIe Adapter",
+                        "IP":  "10.0.0.91, fe80::2176:bd9c:2d18:8fdd",
+                        "MAC":  "84:9E:56:3E:5E:F3",
+                        "Gateway":  "10.0.0.1",
+                        "DHCP":  true
+                    },
+                    {
+                        "Name":  "VirtualBox Host-Only Ethernet Adapter",
+                        "IP":  "192.168.56.1, fe80::5a62:b8b9:eca9:6b59",
+                        "MAC":  "0A:00:27:00:00:1B",
+                        "Gateway":  "",
+                        "DHCP":  false
+                    }
+                ]
+}
